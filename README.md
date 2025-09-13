@@ -256,7 +256,7 @@ Este projeto representa a evolução completa de um sistema e-commerce, desde a 
 
 ## 📚 Links Úteis
 
-- **Documentação do Projeto:** [Ver PDF completo](Lucas_Amorim_Porciuncula_PB_TP4.pdf)
+- **Documentação do Projeto:** [Ver PDF completo](https://docs.google.com/document/d/1YEgQOYKm9urwNSLvujy0OUtSp_zM4sRGd8D29MWlvRI/edit?tab=t.0)
 - **Vídeos Explicativos:**
   - [TP2 - Casos de Uso](https://youtu.be/lxHdMg2qYBw)
   - [TP3 - Modelagem](https://www.youtube.com/watch?v=e_K5JM_Dfc0)
