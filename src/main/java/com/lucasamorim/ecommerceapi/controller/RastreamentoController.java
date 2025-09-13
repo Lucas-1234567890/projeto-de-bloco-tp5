@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/rastreamentos")
+@CrossOrigin(origins = "http://localhost:5500") // <<<< ADICIONADO
 public class RastreamentoController {
     private final RastreamentoService rastreamentoService;
     private final PedidoService pedidoService;
@@ -22,5 +23,11 @@ public class RastreamentoController {
     public List<Rastreamento> listarPorPedido(@PathVariable Long pedidoId) {
         Pedido pedido = pedidoService.buscarPorId(pedidoId);
         return rastreamentoService.listarPorPedido(pedido);
+    }
+
+    // <<<< ADICIONADO: Listar todos os rastreamentos
+    @GetMapping
+    public List<Rastreamento> listarTodos() {
+        return rastreamentoService.listarTodos();
     }
 }

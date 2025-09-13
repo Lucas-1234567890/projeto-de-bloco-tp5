@@ -30,27 +30,48 @@ public class PedidoController {
 
     @PostMapping
     public Pedido criarPedido(@RequestBody Pedido pedido, @RequestParam(required=false) String codigoCupom) {
-        // Aplica cupom se houver
-        if(codigoCupom != null) {
-            Cupom cupom = cupomService.validarCupom(codigoCupom)
-                    .orElseThrow(() -> new RuntimeException("Cupom inválido"));
-            pedidoService.aplicarCupom(pedido, cupom);
+        try {
+            // Aplica cupom se houver
+            if(codigoCupom != null && !codigoCupom.trim().isEmpty()) {
+                Cupom cupom = cupomService.validarCupom(codigoCupom)
+                        .orElseThrow(() -> new RuntimeException("Cupom inválido ou expirado"));
+                pedidoService.aplicarCupom(pedido, cupom);
+            }
+
+            // Processa pagamento
+            if (pedido.getPagamento() != null) {
+                pagamentoService.processarPagamento(pedido.getPagamento());
+            }
+
+            // Atualiza estoque
+            if (pedido.getProdutos() != null) {
+                pedido.getProdutos().forEach(produto -> {
+                    try {
+                        produtoService.atualizarEstoque(produto, 1);
+                    } catch (Exception e) {
+                        System.err.println("Erro ao atualizar estoque do produto " + produto.getId());
+                    }
+                });
+            }
+
+            // Salva o pedido primeiro
+            Pedido pedidoSalvo = pedidoService.criarPedido(pedido);
+
+            // Gera nota fiscal se aprovado
+            if(pedido.getPagamento() != null && "APROVADO".equalsIgnoreCase(pedido.getPagamento().getStatus())) {
+                try {
+                    notaFiscalService.gerarNota(pedidoSalvo);
+                    rastreamentoService.criarEtapa(pedidoSalvo, "Separação");
+                } catch (Exception e) {
+                    System.err.println("Erro ao gerar nota fiscal ou rastreamento: " + e.getMessage());
+                }
+            }
+
+            return pedidoSalvo;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao processar pedido: " + e.getMessage());
         }
-
-        // Processa pagamento
-        pagamentoService.processarPagamento
-        (pedido.getPagamento());
-
-        // Atualiza estoque
-        pedido.getProdutos().forEach(produto -> produtoService.atualizarEstoque(produto, 1));
-
-        // Gera nota fiscal se aprovado
-        if("APROVADO".equalsIgnoreCase(pedido.getPagamento().getStatus())) {
-            notaFiscalService.gerarNota(pedido);
-            rastreamentoService.criarEtapa(pedido, "Separação");
-        }
-
-        return pedidoService.criarPedido(pedido);
     }
 
     @GetMapping("/{id}")

@@ -20,4 +20,14 @@ public class AvaliacaoProdutoService {
     public List<AvaliacaoProduto> listarPorProduto(Long produtoId) {
         return repo.findByProdutoId(produtoId);
     }
+
+    // <<<< ADICIONADO
+    public List<AvaliacaoProduto> listarTodas() {
+        return repo.findAll();
+    }
+
+    public AvaliacaoProduto buscarPorId(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Avaliação não encontrada"));
+    }
 }

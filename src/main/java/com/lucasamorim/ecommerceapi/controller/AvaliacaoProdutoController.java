@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/avaliacoes")
+@CrossOrigin(origins = "http://localhost:5500") // <<<< ADICIONADO
 public class AvaliacaoProdutoController {
     private final AvaliacaoProdutoService service;
 
@@ -22,5 +23,11 @@ public class AvaliacaoProdutoController {
     @GetMapping("/produto/{produtoId}")
     public List<AvaliacaoProduto> listarPorProduto(@PathVariable Long produtoId) {
         return service.listarPorProduto(produtoId);
+    }
+
+    // <<<< ADICIONADO: Listar todas as avaliações
+    @GetMapping
+    public List<AvaliacaoProduto> listarTodas() {
+        return service.listarTodas();
     }
 }
