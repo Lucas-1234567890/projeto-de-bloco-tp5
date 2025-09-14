@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cupons")
-@CrossOrigin(origins = "http://localhost:5500") // <<<< ADICIONADO
+@CrossOrigin(origins = "http://localhost:5500") 
 public class CupomController {
     private final CupomService service;
 
@@ -26,7 +26,7 @@ public class CupomController {
                 .orElseThrow(() -> new RuntimeException("Cupom inválido ou expirado"));
     }
 
-    // <<<< ADICIONADO: Listar todos os cupons
+   
     @GetMapping
     public List<Cupom> listarTodos() {
         return service.listarTodos();
