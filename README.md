@@ -30,7 +30,7 @@ Sistema de e-commerce desenvolvido em **Spring Boot** que implementa funcionalid
 ### Executando o Projeto
 ```bash
 # Clone o repositório
-git clone [seu-repositorio]
+git clone [seu-repositorio](https://github.com/Lucas-1234567890/projeto-de-bloco-tp5.git)]
 cd ecommerceapi
 
 # Execute com Maven
