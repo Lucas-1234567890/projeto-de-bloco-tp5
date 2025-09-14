@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/avaliacoes")
-@CrossOrigin(origins = "http://localhost:5500") // <<<< ADICIONADO
+@CrossOrigin(origins = "http://localhost:5500") 
 public class AvaliacaoProdutoController {
     private final AvaliacaoProdutoService service;
 
@@ -25,7 +25,7 @@ public class AvaliacaoProdutoController {
         return service.listarPorProduto(produtoId);
     }
 
-    // <<<< ADICIONADO: Listar todas as avaliações
+   
     @GetMapping
     public List<AvaliacaoProduto> listarTodas() {
         return service.listarTodas();
